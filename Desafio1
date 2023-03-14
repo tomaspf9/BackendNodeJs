@@ -1,54 +1,39 @@
-class ProductManager {
-
-    constructor() {
+// se crea la clase productmanage y desde su constructor se cree products como un arreglo vacio
+class ProductManager{
+    constructor(){
         this.products = []
-        this.codes = []
     }
+    static id = 0
 
-    getProducts = () => { return this.products }
 
-    getNextID = () => {
-        const count = this.products.length
-        return (count > 0) ? this.products[count-1].id + 1 : 1
+    // addproducts agrega a products los productos
+
+    addProduct(tittle,description,price,image,code,stock){
+        ProductManager.id++
+        this.products.push({tittle,description,price,image,code,stock,id:ProductManager.id})
     }
-    getProductsById = (id) => {
-        return this.products[id-1] ?? "Not Found"
+    // getProduct devuelve mi array de productos
+    getProduct(){
+        return this.products
     }
-
-    addProduct = (title, description, price, thumbnail, code, stock) => {
-        const id = this.getNextID()
-        const product = {
-            id,
-            title,
-            description,
-            price,
-            thumbnail,
-            code,
-            stock
-        }
-
-        if (this.codes.includes(product.code)) {
-            console.log(`ERROR: CÓDIGO DUPLICADO\nNo se agrega el producto "${product.title}"`)
-        } else {
-            this.products.push(product)
-            this.codes.push(product.code)
+    getProductById(id){
+        // Buscamos dentro de nuestro array producto nuestro producto en id
+        // En caso de que no esté = NOT FOUND
+        if(this.products.find((producto) => producto.id === id)){
+            console.log("Not Found")
+        } else{
+            console.log('Existe')
         }
     }
 }
 
-const productManager = new ProductManager()
-console.log("---------------------------------------");
+const productos = new ProductManager()
+productos.addProduct('titulo1','descripcion',1000,'imagen1','abc123',5)
+productos.addProduct('titulo2','descripcion',1000,'imagen','abc124',5)
 
-console.log(productManager.getProducts());
-console.log("---------------------------------------");
+// se les agregan los productos con el metodo addproduct
 
-productManager.addProduct("producto prueba", "Este es un producto prueba", 200, "Sin imagen", "abc123", 25)
-productManager.addProduct("Joystick", "Redragon Saturn G807", 27000, "Sin imagen", "aaa111", 10)
 
-console.log(productManager.getProducts());
-console.log("---------------------------------------");
 
-productManager.addProduct("producto prueba", "Este es un producto prueba", 200, "Sin imagen", "abc123", 25)
-console.log("---------------------------------------");
-
-console.log(productManager.getProductsById(2));
+console.log(productos.getProduct())
+console.log(productos. getProductById(2))
